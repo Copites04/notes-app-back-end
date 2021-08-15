@@ -5,11 +5,11 @@ const addNoteHandler = (request, h) => {
   const { title, tags, body } = request.payload;
 
   const id = nanoid(16);
-  const createAt = new Date().toISOString();
-  const updateAt = createAt;
+  const createdAt = new Date().toISOString();
+  const updatedAt = createdAt;
 
   const newNote = {
-    title, tags, body, id, createAt, updateAt,
+    title, tags, body, id, createdAt, updatedAt,
   };
   notes.push(newNote);
 
@@ -63,7 +63,7 @@ const getNoteByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    message: 'catatan tidak ditemukan',
+    message: 'Catatan tidak ditemukan',
   });
   response.code(404);
   return response;
@@ -128,7 +128,7 @@ const deleteNoteByIdHandler = (request, h) => {
     notes.splice(index, 1);
     const response = h.response({
       status: 'success',
-      message: 'Catatan Berhasil dihapus',
+      message: 'Catatan berhasil dihapus',
     });
     response.code(200);
     return response;
