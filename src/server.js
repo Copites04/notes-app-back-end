@@ -1,5 +1,9 @@
 const Hapi = require('@hapi/hapi');
-const routes = require('./routes');
+// const routes = require('./routes');
+
+// new hapi plugin
+const notes = require('./api/notes');
+const NotesService = require('./services/inMemory/NotesService');
 
 // Good news! Penerapannya akan jauh lebih mudah bila Anda menggunakan Hapi.
 // Dengan Hapi, CORS dapat ditetapkan pada spesifik route dengan menambahkan properti options.cors
@@ -13,6 +17,7 @@ const routes = require('./routes');
 // response.header('Access-Control-Allow-Origin', 'http://ec2-13-212-153-62.ap-southeast-1.compute.amazonaws.com:8000/');
 // return response;
 
+/* Server Lama, note book
 const init = async () => {
   const server = Hapi.server({
     port: 5000,
@@ -26,6 +31,32 @@ const init = async () => {
   });
 
   server.route(routes);
+
+  await server.start();
+  console.log(`Server berjalan pada ${server.info.uri}`);
+};
+*/
+
+/* menggunakan plugin hapi */
+const init = async () => {
+  const notesService = new NotesService();
+  const server = Hapi.server({
+    port: 5000,
+    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
+    // Cross-origin resource sharing (CORS).
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
+  });
+
+  await server.register({
+    plugin: notes,
+    options: {
+      service: notesService,
+    },
+  });
 
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
