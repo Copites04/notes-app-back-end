@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 // new hapi plugin
 const notes = require('./api/notes');
 const NotesService = require('./services/inMemory/NotesService');
+const NotesValidator = require('./validator/notes');
 
 // Good news! Penerapannya akan jauh lebih mudah bila Anda menggunakan Hapi.
 // Dengan Hapi, CORS dapat ditetapkan pada spesifik route dengan menambahkan properti options.cors
@@ -55,6 +56,7 @@ const init = async () => {
     plugin: notes,
     options: {
       service: notesService,
+      validator: NotesValidator,
     },
   });
 
