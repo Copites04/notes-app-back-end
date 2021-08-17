@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 
+exports.shorthands = undefined;
+
 exports.up = (pgm) => {
   pgm.createTable('notes', {
     id: {
       type: 'VARCHAR(50)',
-      primary_key: true,
+      primaryKey: true,
     },
     title: {
       type: 'TEXT',
@@ -22,7 +24,7 @@ exports.up = (pgm) => {
       type: 'TEXT',
       notNull: true,
     },
-    update_at: {
+    updated_at: {
       type: 'TEXT',
       notNull: true,
     },
